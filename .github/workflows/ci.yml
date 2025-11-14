@@ -11,7 +11,7 @@ env:
   IMAGE_APP: ayubazmi/wisecow
   IMAGE_NGINX: ayubazmi/wisecow-nginx
   TAG: latest
-  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }} # Optional if using kubeconfig
+  
 
 jobs:
   build-and-push:
