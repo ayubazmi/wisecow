@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -11,10 +11,11 @@ env:
   IMAGE_APP: ayubazmi/wisecow
   IMAGE_NGINX: ayubazmi/wisecow-nginx
   TAG: latest
+  KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }} # Optional if using kubeconfig
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # Use your runner here
 
     steps:
       - name: Checkout repository
@@ -37,3 +38,8 @@ jobs:
 
       - name: Push Wisecow Nginx image
         run: docker push $IMAGE_NGINX:$TAG
+
+      - name: Deploy to Kubernetes
+        run: |
+          cd k8s
+          kubectl apply -f .
