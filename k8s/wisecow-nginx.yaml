@@ -1,0 +1,48 @@
+# wisecow-nginx.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wisecow-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wisecow-nginx
+  template:
+    metadata:
+      labels:
+        app: wisecow-nginx
+    spec:
+      containers:
+      - name: wisecow-nginx
+        image: ayubazmi/wisecow-nginx:latest
+        ports:
+        - containerPort: 4499
+        volumeMounts:
+        - name: tls-secret
+          mountPath: /etc/nginx/certs
+          readOnly: true
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+      volumes:
+      - name: tls-secret
+        secret:
+          secretName: wisecow-tls
+      - name: nginx-config
+        configMap:
+          name: wisecow-nginx-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wisecow-nginx
+spec:
+  type: NodePort
+  selector:
+    app: wisecow-nginx
+  ports:
+  - port: 4499
+    targetPort: 4499
+    nodePort: 30499

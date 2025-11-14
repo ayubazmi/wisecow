@@ -1,0 +1,12 @@
+# wisecow-app-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: wisecow-app
+spec:
+  type: ClusterIP
+  selector:
+    app: wisecow
+  ports:
+  - port: 4499
+    targetPort: 4499
