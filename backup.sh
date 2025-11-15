@@ -1,18 +1,10 @@
 #!/bin/bash
 
-# ===============================
-# Automated Backup Script
-# ===============================
-
-# -------------------------------
-# Configuration
-# -------------------------------
-
 # Source directory to backup
-SOURCE_DIR="$HOME/testdata"      # Change this to your actual source
+SOURCE_DIR="$HOME/testdata"      
 
 # Remote server / destination directory
-REMOTE_SERVER="$HOME/backup_test"  # For local testing. For remote: user@host:/path
+REMOTE_SERVER="$HOME/backup_test"  
 
 # Log file
 LOG_FILE="$HOME/backup.log"
@@ -20,9 +12,7 @@ LOG_FILE="$HOME/backup.log"
 # Date for backup folder
 DATE=$(date '+%Y-%m-%d_%H-%M-%S')
 
-# -------------------------------
-# Ensure directories exist
-# -------------------------------
+
 
 # Create source directory if it doesn't exist
 if [ ! -d "$SOURCE_DIR" ]; then
@@ -38,16 +28,12 @@ if [[ "$REMOTE_SERVER" != *":"* ]]; then
     fi
 fi
 
-# -------------------------------
-# Run backup
-# -------------------------------
+
 
 echo "Starting backup from $SOURCE_DIR to $REMOTE_SERVER/$DATE ..."
 rsync -avz --delete "$SOURCE_DIR/" "$REMOTE_SERVER/$DATE" &>> "$LOG_FILE"
 
-# -------------------------------
-# Check backup result
-# -------------------------------
+
 
 if [ $? -eq 0 ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') Backup successful: $SOURCE_DIR -> $REMOTE_SERVER/$DATE" | tee -a "$LOG_FILE"
