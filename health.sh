@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# ===============================
-# System Health Monitoring Script
-# ===============================
-
 # Thresholds
 CPU_THRESHOLD=80
 MEM_THRESHOLD=80
