@@ -38,7 +38,11 @@ jobs:
       - name: Push Wisecow Nginx image
         run: docker push $IMAGE_NGINX:$TAG
 
-      
+      - name: Set up kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
